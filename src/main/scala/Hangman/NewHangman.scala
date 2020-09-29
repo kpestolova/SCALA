@@ -1,8 +1,9 @@
 package Hangman
 
+
 import scala.io.StdIn.readLine
 import scala.util.Random
-
+import scala.io.Source
 
 object NewHangman extends App {
 
@@ -17,7 +18,7 @@ def Game:Any = {
    * Extracts words from the file and filters them
    */
 
-  val fName = io.Source.fromFile("C:\\Users\\user\\IdeaProjects\\SCALA\\src\\resources\\dictionaryWords.txt")
+  val fName = Source.fromResource("Words.txt")
   val listOfWords = fName.getLines.toList
   var level = List("")
   val easyWords = listOfWords.filter(_.length < 4)
@@ -47,9 +48,9 @@ def Game:Any = {
           Game
       }
       word = Random.shuffle(level).head.toUpperCase
-    case "2" =>  println("Okay, nice to see you both! \n" +
+    case "2" =>  println("\nOkay, nice to see you both! \n" +
       "Now one of you should close their eyes.")
-      word = readLine("Please enter your word: ").toUpperCase
+      word = readLine("\nPlease enter your word: ").toUpperCase
       println("\n" *10)
     case _ => println("Sorry, I can't handle this. " +
       "Restart the programme and try again")
@@ -73,10 +74,10 @@ def Game:Any = {
    * Stops when player runs out of tries or when player guesses the word
    *
    */
-
+  var usedLetters : Set[Char] = Set()
   while (guesses != minGuesses) {
     val inLetter: Char = readLine("\nType the letter: ").toUpperCase.head
-
+        usedLetters += inLetter
     if (lowerList.contains(inLetter)) {
       println("You already used this letter!")
     }
@@ -84,10 +85,10 @@ def Game:Any = {
       lowerList = lowerList.zip(wordList).map({ case (g, h) => if (inLetter == h) h else g })
       println(lowerList.mkString(" ") + " "* 5 + " Guesses left: " + guesses)
 
-      if (lowerList == wordList) {
-        wins += 1
-        println("You won! Congrats!")
-        guesses = minGuesses
+        if (lowerList == wordList) {
+          wins += 1
+          println("\nYou won! Congrats!")
+          guesses = minGuesses
       }
     } else {
       guesses -= 1
@@ -97,6 +98,8 @@ def Game:Any = {
         println("\nSorry, you lost :( \nThe word was: " + wordList.mkString(""))
       }
     }
+    println(usedLetters.mkString(", "))
+
   }
 
 
