@@ -12,6 +12,8 @@ println("Hey! You're playing Hangman!")
   var loss = 0
   Game
 
+
+
 def Game:Any = {
 
   /**
@@ -25,7 +27,6 @@ def Game:Any = {
   val mediumWords = listOfWords.filter(x => x.length > 4 && x.length < 10)
   val hardWords = listOfWords.filter(_.length > 10)
   fName.close()
-
 
 
   val input = readLine("\nDo you have 1 player or 2? ")
@@ -57,7 +58,7 @@ def Game:Any = {
     Game
   }
 
-  fName.close
+
 
   /**
    * Makes the word's structure for the game
